@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+	<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+		"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+		
+<mapper namespace="cn.tedu.store.mapper.AddressMapper">
+	<resultMap type="cn.tedu.store.bean.Address" id="address">
+		<id column="id" property="id" />
+		<result column="uid" property="uid" />
+		<result column="recv_username" property="recvUsername" />
+		<result column="recv_provinceCode" property="recvProvinceCode" />
+		<result column="recv_cityCode" property="recvCityCode" />
+		<result column="recv_areaCode" property="recvAreaCode" />
+		<result column="recv_address" property="recvAddress" />
+		<result column="recv_district" property="recvDistrict" />
+		<result column="recv_phone" property="recvPhone" />
+		<result column="recv_tel" property="recvTel" />
+		<result column="recv_zip" property="recvZip" />
+		<result column="recv_tag" property="recvTag" />
+		<result column="is_default" property="isDefault" />
+		<result column="create_user" property="createUser" />
+		<result column="create_time" property="createTime" />
+		<result column="modified_user" property="mproperty" />
+		<result column="modified_time" property="modifiedTime" />     
+	</resultMap>
+
+	<insert id="insert" parameterType="cn.tedu.store.bean.Address" >
+		<selectKey keyProperty="id" resultType="int">
+		SELECT LAST_INSERT_ID()
+		</selectKey>
+	 	insert into t_address(
+		 	id,            
+			uid,
+			recv_username,
+			recv_provinceCode,
+			recv_cityCode,  
+			recv_areaCode,  
+			recv_address,  
+			recv_district,   
+			recv_phone,      
+			recv_tel,       
+			recv_zip,      
+			recv_tag,     
+			is_default,     
+			create_user,		
+			create_time	,	
+			modified_user,
+			modified_time
+	 	)
+	 	value(
+	 		null,            
+			#{uid},
+			#{recvUsername},
+			#{recvProvinceCode},
+			#{recvCityCode},  
+			#{recvAreaCode},  
+			#{recvAddress},  
+			#{recvDistrict},   
+			#{recvPhone},      
+			#{recvTel},       
+			#{recvZip},      
+			#{recvTag},     
+			#{isDefault},     
+			#{createUser},		
+			#{createTime},	
+			#{modifiedUser},
+			#{modifiedTime}
+	 	)
+	 	
+	</insert>
+	
+<!-- 	<delete id="delete"> -->
+<!-- 		delete  from t_address where id =#{id} -->
+<!-- 	</delete> -->
+	
+	<update id="update" parameterType="cn.tedu.store.bean.Address">
+		update t_address
+		<set>
+			<if test="uid!=0">
+			uid=#{uid},
+			</if>
+			<if test="recvUsername!=null">
+			recv_username,=#{recvUsername},
+			</if>
+			<if test="recvProvinceCode!=null">
+			recv_provinceCode=#{recvProvinceCode},
+			</if>
+			<if test="recvCityCode!=null">
+			recv_cityCode=#{recvCityCode},
+			</if>
+			<if test="recvAreaCode!=null">
+			recv_areaCode=#{recvAreaCode},
+			</if>
+			<if test="recvAddress!=null">
+			recv_address=#{recvAddress},
+			</if>
+			<if test="recvDistrict!=null">
+			recv_district=#{recvDistrict},
+			</if>
+			<if test="recvPhone!=null">
+			recv_phone=#{recvPhone},
+			</if>
+			<if test="recvTel!=null">
+			recv_tel=#{recvTel},
+			</if>
+			<if test="recvZip!=null">
+			recv_zip=#{recvZip},
+			</if>
+			<if test="recvTag!=null">
+			recv_tag=#{recvTag},
+			</if>
+			<if test="isDefault!=null">
+			is_default=#{isDefault},
+			</if>
+			<if test="createUser!=null">
+			create_user=#{createUser},
+			</if>
+			<if test="createTime!=null">
+			create_time=#{createTime},
+			</if>
+			<if test="modifiedUser!=null">
+			modified_user=#{modifiedUser},
+			</if>
+			<if test="modifiedTime!=null">
+			modified_time=#{modifiedTime},
+			</if>
+		</set>
+		where 
+			id = #{id}
+	</update>
+	
+	<select id="selectById" resultMap="address">
+			select
+		t_address.id id,
+		uid,
+		recv_username,
+		recv_provinceCode,
+		recv_cityCode,
+		recv_areaCode,
+		CONCAT(province_name,city_name,area_name) recv_district,
+		recv_address,
+		recv_phone,
+		recv_tel,
+		recv_zip,
+		recv_tag,
+		is_default,
+		create_user,
+		create_time,
+		modified_user,
+		modified_time
+	from
+		t_address
+	left join
+		t_dict_provinces
+	on t_address.recv_provinceCode=t_dict_provinces.province_code
+		left join
+	t_dict_cities
+	on t_address.recv_cityCode=t_dict_cities.city_code
+	left join	t_dict_areas
+	on t_address.recv_areaCode=t_dict_areas.area_code
+	where t_address.id = #{id} 
+	</select>
+	
+	<select id="selectByUid" resultMap="address">
+	select
+		t_address.id id,
+		uid,
+		recv_username,
+		recv_provinceCode,
+		recv_cityCode,
+		recv_areaCode,
+		CONCAT(province_name,city_name,area_name) recv_district,
+		recv_address,
+		recv_phone,
+		recv_tel,
+		recv_zip,
+		recv_tag,
+		is_default,
+		create_user,
+		create_time,
+		modified_user,
+		modified_time
+	from
+		t_address
+	left join
+		t_dict_provinces
+	on t_address.recv_provinceCode=t_dict_provinces.province_code
+		left join
+	t_dict_cities
+	on t_address.recv_cityCode=t_dict_cities.city_code
+	left join	t_dict_areas
+	on t_address.recv_areaCode=t_dict_areas.area_code
+	where 
+	uid=#{uid} 
+	</select> 
+	
+	<select id="countRecord">
+		select 
+			count(*)
+		from
+			t_user
+	</select>
+	
+	<select id="selectByPage" resultMap="address" >
+		
+	</select> 
+	
+
+	<update id="setAllNoDefault">
+		update t_address set is_default=0 where uid=#{uid} 
+	</update>
+
+	<update id="setDefault">
+		update t_address set is_default=1 where id=#{id} 
+	</update>
+
+
+	
+	
+</mapper>

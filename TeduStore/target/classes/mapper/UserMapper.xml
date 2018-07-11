@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+	<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+		"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+<mapper namespace="cn.tedu.store.mapper.UserMapper">
+	<resultMap type="cn.tedu.store.bean.User" id="user">
+		<id column="id" property="id" />
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="email" property="email"/>
+		<result column="phone" property="phone"/>
+		<result column="image" property="image"/>
+		<result column="gender" property="gender"/>
+		<result column="create_user" property="createUser"/>
+		<result column="create_time" property="createTime"/>
+		<result column="modified_user" property="modifiedUser"/>
+		<result column="modified_time" property="modifiedTime"/>
+	</resultMap>
+
+	<insert id="insert">
+		insert into t_user(
+		username,
+		password,
+		email,		
+		phone,		
+		create_user,				
+		create_time,				
+		modified_user,			
+		modified_time
+		)
+		value(
+			#{username},
+			#{password},
+			#{email},
+			#{phone},
+			#{createUser},			
+			#{createTime},				
+			#{modifiedUser},			
+			#{modifiedTime}
+		)
+	</insert>
+	
+<!-- 	<delete id="delete"> -->
+<!-- 		delete * from t_user where id =#{id} -->
+<!-- 	</delete> -->
+	
+	<update id="update" parameterType="cn.tedu.store.bean.User">
+		update 
+			t_user 
+		<set>
+			<if test="username!=null">
+				username=#{username},
+			</if>
+			<if test="password!=null">
+				password=#{password},
+			</if>
+			<if test="image!=null">
+			image=#{image},
+			</if>
+			<if test="email!=null">
+			email=#{email},
+			</if>
+			<if test="phone!=null">
+			phone=#{phone},
+			</if>
+			<if test="gender!=-1">
+			gender=#{gender},
+			</if>
+			<if test="modifiedUser!=null">
+			modified_user=#{modifiedUser},
+			</if>
+			<if test="modifiedTime!=null">
+			modified_time=#{modifiedTime},
+			</if>
+		</set>
+		where 
+			id = #{id}
+	</update>
+	
+	<select id="selectById" resultMap="user">
+		select 
+			id,
+			username,
+			password,
+			email,		
+			phone,	
+			image,
+			gender,	
+			create_user,				
+			create_time,				
+			modified_user,			
+			modified_time
+		 from 
+		 	t_user 
+		 where 
+		 	id=#{id}
+	</select>
+	
+<!-- 	<select id="selectAll" resultMap="user"> -->
+<!-- 		select  -->
+<!-- 			id, -->
+<!-- 			username, -->
+<!-- 			password, -->
+<!-- 			email,		 -->
+<!-- 			phone,	 -->
+<!-- 			image, -->
+<!-- 			gender,	 -->
+<!-- 			create_user,				 -->
+<!-- 			create_time,				 -->
+<!-- 			modified_user,			 -->
+<!-- 			modified_time  -->
+<!-- 		from  -->
+<!-- 		 	t_user -->
+<!-- 	</select>  -->
+	
+<!-- 	<select id="countRecord"> -->
+<!-- 		select  -->
+<!-- 			count(*) -->
+<!-- 		from -->
+<!-- 			t_user -->
+<!-- 	</select> -->
+	
+<!-- 	<select id="selectByPage" resultMap="user" > -->
+<!-- 		select  -->
+<!-- 			id, -->
+<!-- 			username, -->
+<!-- 			password, -->
+<!-- 			email,		 -->
+<!-- 			phone,	 -->
+<!-- 			image, -->
+<!-- 			gender,	 -->
+<!-- 			create_user,				 -->
+<!-- 			create_time,				 -->
+<!-- 			modified_user,			 -->
+<!-- 			modified_time  -->
+<!-- 		from  -->
+<!-- 		 	t_user -->
+<!-- 		order by -->
+<!-- 		 	id asc -->
+<!-- 		limit #{limit},#{size} -->
+<!-- 	</select>  -->
+	
+	<select id="selectByName" resultMap="user" >
+		select 
+			id,
+			username,
+			password,
+			email,		
+			phone,	
+			image,
+			gender,	
+			create_user,				
+			create_time,				
+			modified_user,			
+			modified_time 
+		from 
+		 	t_user
+		where 
+			username=#{username}
+	</select>
+	
+<!-- 	<select id="selectByEmail" resultMap="user" > -->
+<!-- 		select  -->
+<!-- 			* -->
+<!-- 		from -->
+<!-- 			t_user -->
+<!-- 		where -->
+<!-- 			email=#{email} -->
+<!-- 	</select> -->
+	
+	<update id="updateUserName">
+		update 
+			t_user
+		set
+			username=#{username}
+		where
+			id=#{id}
+	</update>
+	
+	<update id="updatePassWord">
+		update 
+			t_user
+		set
+			password=#{password}
+		where
+			id=#{id}
+	</update>
+	
+
+	
+	
+</mapper>
